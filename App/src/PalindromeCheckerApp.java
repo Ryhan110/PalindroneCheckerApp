@@ -4,30 +4,31 @@
  * @author Developer
  * @version 1.0
  */
-
+import java.util.Stack;
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        System.out.println("Palindrome Checker - Version 4.0");
+        System.out.println("Palindrome Checker - Version 5.0");
         System.out.println("----------------------------------");
 
-        String input = "radar";
-        char[] arr = input.toCharArray();
+        String input = "madam";
+        Stack<Character> stack = new Stack<>();
 
-        int start = 0;
-        int end = arr.length - 1;
+        // Push all characters into stack
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
         boolean isPalindrome = true;
 
-        while (start < end) {
+        // Compare original with popped characters
+        for (int i = 0; i < input.length(); i++) {
 
-            if (arr[start] != arr[end]) {
+            if (input.charAt(i) != stack.pop()) {
                 isPalindrome = false;
                 break;
             }
-
-            start++;
-            end--;
         }
 
         if (isPalindrome) {

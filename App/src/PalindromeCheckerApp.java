@@ -9,38 +9,46 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Define input string
-        String input = "racecar";
+        String input = "level";
 
-        // Call recursive check
-        boolean isPalindrome = check(input, 0, input.length() - 1);
+        // Create service object
+        PalindromeService service = new PalindromeService();
 
-        // Output result
+        boolean result = service.checkPalindrome(input);
+
         System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Is Palindrome? : " + result);
     }
+}
+
+/**
+ * Service class that contains palindrome logic.
+ */
+class PalindromeService {
 
     /**
-     * Recursively checks whether a string is palindrome.
+     * Checks whether the input string is a palindrome.
      *
-     * @param s     Input string
-     * @param start Starting index
-     * @param end   Ending index
-     * @return true if palindrome, otherwise false
+     * @param input Input string
+     * @return true if palindrome, false otherwise
      */
-    private static boolean check(String s, int start, int end) {
+    public boolean checkPalindrome(String input) {
 
-        // Base case: If pointers cross or meet
-        if (start >= end) {
-            return true;
+        // Initialize pointers
+        int start = 0;
+        int end = input.length() - 1;
+
+        // Compare characters moving inward
+        while (start < end) {
+
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
+
+            start++;
+            end--;
         }
 
-        // If characters mismatch
-        if (s.charAt(start) != s.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call moving inward
-        return check(s, start + 1, end - 1);
+        return true;
     }
 }

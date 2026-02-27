@@ -9,52 +9,46 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Define input string
-        String input = "racecar";
+        String input = "level";
 
-        // Call recursive check
-        boolean isPalindrome = check(input, 0, input.length() - 1);
+        // Create service object
+        PalindromeService service = new PalindromeService();
 
-        // Output result
+        boolean result = service.checkPalindrome(input);
+
         System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Is Palindrome? : " + result);
     }
+}
+
+/**
+ * Service class that contains palindrome logic.
+ */
+class PalindromeService {
 
     /**
-     * Recursively checks whether a string is palindrome.
+     * Checks whether the input string is a palindrome.
      *
-     * @param s     Input string
-     * @param start Starting index
-     * @param end   Ending index
-     * @return true if palindrome, otherwise false
+     * @param input Input string
+     * @return true if palindrome, false otherwise
      */
-    private static boolean check(String s, int start, int end) {
+    public boolean checkPalindrome(String input) {
 
-        // Original input
-        String input = "A man a plan a canal Panama";
+        // Initialize pointers
+        int start = 0;
+        int end = input.length() - 1;
 
-        // Normalize:
-        // 1. Remove non-alphanumeric characters
-        // 2. Convert to lowercase
-        String normalized = input.replaceAll("[^a-zA-Z0-9]", "")
-                .toLowerCase();
+        // Compare characters moving inward
+        while (start < end) {
 
-        boolean isPalindrome = true;
-
-        // Compare characters from both ends
-        for (int i = 0; i < normalized.length() / 2; i++) {
-
-            if (normalized.charAt(i) !=
-                    normalized.charAt(normalized.length() - 1 - i)) {
-
-                isPalindrome = false;
-                break;
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
             }
+
+            start++;
+            end--;
         }
 
-        // Output
-        System.out.println("Original Input : " + input);
-        System.out.println("Normalized Input : " + normalized);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        return true;
     }
 }

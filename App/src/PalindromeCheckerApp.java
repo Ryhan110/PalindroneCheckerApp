@@ -9,12 +9,15 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String input = "level";
+        String input = "madam";
 
-        // Create service object
-        PalindromeService service = new PalindromeService();
+        // Choose strategy at runtime
+        PalindromeStrategy strategy = new StackStrategy();
 
-        boolean result = service.checkPalindrome(input);
+        // Inject strategy into context
+        PalindromeContext context = new PalindromeContext(strategy);
+
+        boolean result = context.executeStrategy(input);
 
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + result);
@@ -22,33 +25,63 @@ public class PalindromeCheckerApp {
 }
 
 /**
- * Service class that contains palindrome logic.
+ * ===============================================================
+ * INTERFACE - PalindromeStrategy
+ * ===============================================================
+ *
+ * Defines a contract for all palindrome checking algorithms.
  */
-class PalindromeService {
+interface PalindromeStrategy {
 
-    /**
-     * Checks whether the input string is a palindrome.
-     *
-     * @param input Input string
-     * @return true if palindrome, false otherwise
-     */
-    public boolean checkPalindrome(String input) {
+    boolean check(String input);
+}
 
-        // Initialize pointers
-        int start = 0;
-        int end = input.length() - 1;
+/**
+ * ===============================================================
+ * CLASS - StackStrategy
+ * ===============================================================
+ *
+ * Concrete implementation using Stack.
+ */
+class StackStrategy implements PalindromeStrategy {
 
-        // Compare characters moving inward
-        while (start < end) {
+    @Override
+    public boolean check(String input) {
 
-            if (input.charAt(start) != input.charAt(end)) {
+        Stack<Character> stack = new Stack<>();
+
+        // Push all characters
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Compare while popping
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
                 return false;
             }
-
-            start++;
-            end--;
         }
 
         return true;
+    }
+}
+
+/**
+ * ===============================================================
+ * CONTEXT CLASS
+ * ===============================================================
+ *
+ * Uses the selected strategy.
+ */
+class PalindromeContext {
+
+    private PalindromeStrategy strategy;
+
+    public PalindromeContext(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean executeStrategy(String input) {
+        return strategy.check(input);
     }
 }

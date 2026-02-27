@@ -9,34 +9,38 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Define the input string to validate
-        String input = "madam";
+        // Define input string
+        String input = "racecar";
 
-        // Create a Deque to store characters
-        Deque<Character> deque = new LinkedList<>();
-
-        // Insert each character into the deque
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        // Flag to track palindrome status
-        boolean isPalindrome = true;
-
-        // Compare characters from both ends
-        while (deque.size() > 1) {
-
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
-
-            if (front != rear) {
-                isPalindrome = false;
-                break;
-            }
-        }
+        // Call recursive check
+        boolean isPalindrome = check(input, 0, input.length() - 1);
 
         // Output result
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + isPalindrome);
+    }
+
+    /**
+     * Recursively checks whether a string is palindrome.
+     *
+     * @param s     Input string
+     * @param start Starting index
+     * @param end   Ending index
+     * @return true if palindrome, otherwise false
+     */
+    private static boolean check(String s, int start, int end) {
+
+        // Base case: If pointers cross or meet
+        if (start >= end) {
+            return true;
+        }
+
+        // If characters mismatch
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+
+        // Recursive call moving inward
+        return check(s, start + 1, end - 1);
     }
 }

@@ -9,38 +9,38 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Define the input string to validate
-        String input = "civic";
+        // Define input string
+        String input = "racecar";
 
-        // Create a Queue to store characters in FIFO order
-        Queue<Character> queue = new LinkedList<>();
-
-        // Create a Stack to store characters in LIFO order
-        Stack<Character> stack = new Stack<>();
-
-        // Insert each character into both queue and stack
-        for (char c : input.toCharArray()) {
-            queue.add(c);   // FIFO
-            stack.push(c);  // LIFO
-        }
-
-        // Flag to track palindrome status
-        boolean isPalindrome = true;
-
-        // Compare characters until the queue becomes empty
-        while (!queue.isEmpty()) {
-
-            char fromQueue = queue.poll();  // removes front
-            char fromStack = stack.pop();   // removes top
-
-            if (fromQueue != fromStack) {
-                isPalindrome = false;
-                break;
-            }
-        }
+        // Call recursive check
+        boolean isPalindrome = check(input, 0, input.length() - 1);
 
         // Output result
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + isPalindrome);
     }
-}`
+
+    /**
+     * Recursively checks whether a string is palindrome.
+     *
+     * @param s     Input string
+     * @param start Starting index
+     * @param end   Ending index
+     * @return true if palindrome, otherwise false
+     */
+    private static boolean check(String s, int start, int end) {
+
+        // Base case: If pointers cross or meet
+        if (start >= end) {
+            return true;
+        }
+
+        // If characters mismatch
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+
+        // Recursive call moving inward
+        return check(s, start + 1, end - 1);
+    }
+}

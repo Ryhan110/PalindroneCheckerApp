@@ -9,32 +9,38 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        System.out.println("Palindrome Checker - Version 5.0");
-        System.out.println("----------------------------------");
+        // Define the input string to validate
+        String input = "civic";
 
-        String input = "madam";
+        // Create a Queue to store characters in FIFO order
+        Queue<Character> queue = new LinkedList<>();
+
+        // Create a Stack to store characters in LIFO order
         Stack<Character> stack = new Stack<>();
 
-        // Push all characters into stack
+        // Insert each character into both queue and stack
         for (char c : input.toCharArray()) {
-            stack.push(c);
+            queue.add(c);   // FIFO
+            stack.push(c);  // LIFO
         }
 
+        // Flag to track palindrome status
         boolean isPalindrome = true;
 
-        // Compare original with popped characters
-        for (int i = 0; i < input.length(); i++) {
+        // Compare characters until the queue becomes empty
+        while (!queue.isEmpty()) {
 
-            if (input.charAt(i) != stack.pop()) {
+            char fromQueue = queue.poll();  // removes front
+            char fromStack = stack.pop();   // removes top
+
+            if (fromQueue != fromStack) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        if (isPalindrome) {
-            System.out.println(input + " is a Palindrome.");
-        } else {
-            System.out.println(input + " is NOT a Palindrome.");
-        }
+        // Output result
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
-}
+}`
